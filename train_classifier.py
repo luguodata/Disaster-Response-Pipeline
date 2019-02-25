@@ -15,7 +15,7 @@ df.head()
 
 def tokenize(text):
 
-    # Normailization -- lower case + remove puntuation
+    # Normailization -- lower ca se + remove puntuation
     text = re.sub(r"[^a-zA-Z0-9]"," ",text.lower())
 
     # tokenization
