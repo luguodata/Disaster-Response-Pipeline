@@ -82,3 +82,7 @@ sqlalchemy==1.2.15
 
 
 ## Screenshots of Web App
+![Main Page]('Screenshots/WebAPP1.png')
+![Data Charts 1]('Screenshots/WebAPP2.png')
+![Data Charts 2]('Screenshots/WebAPP3.png')
+![Predicted Categories with Input Message]('Screenshots/WebAPP4.png')
