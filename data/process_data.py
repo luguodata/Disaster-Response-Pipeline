@@ -30,7 +30,8 @@ def clean_data(df):
         df: cleaned df
     """
     categorie_seg = df['categories'].str.split(';', expand = True)
-    categorie_seg.columns = categorie_seg.head(1).values[0].tolist()
+    category_colnames = categorie_seg.head(1).values[0].tolist()
+    categorie_seg.columns = [col[:-2] for col in category_colnames]
 
     for column in categorie_seg:
         # set each value to be the last character of the string
@@ -39,8 +40,15 @@ def clean_data(df):
         # convert column from string to numeric
         categorie_seg[column] = categorie_seg[column].astype(int)
 
+    # drop original categories column
     df = df.drop(['categories'], axis = 1)
+    # merge message and categories data together
     df = pd.concat([df, categorie_seg], axis = 1)
+
+    # move related - 1  's value 2 into 0
+    df.loc[df['related'] == 2, 'related'] = 0
+
+    # remove duplicates
     df = df.drop_duplicates()
 
     return df
@@ -57,7 +65,7 @@ def save_data(df, database_filename):
     """
 
     engine = create_engine('sqlite:///{}'.format(database_filename))
-    df.to_sql('ETL_processed_data', engine, index=False)
+    df.to_sql('etl_processed_data', engine, index=False)
 
 
 def main():

@@ -40,14 +40,14 @@ def load_data(database_filepath):
     """
     # load data from database
     engine = create_engine('sqlite:///{}'.format(database_filepath))
-    df = pd.read_sql_table('ETL_processed_data', engine)
+    df = pd.read_sql_table('etl_processed_data', engine)
 
     # split training and testing dataset
-    X = df.ix[:,1:4]
-    Y = df.ix[:,4:]
+    X = df.ix[:,1:2].values[:,0]
+    Y = df.ix[:,4:].values
 
     # get target variable names
-    category_names = Y.columns.tolist()
+    category_names = df.ix[:,4:].columns.tolist()
 
     return X, Y, category_names
 
@@ -79,68 +79,68 @@ def tokenize(text):
     return text_lems
 
 
-
-class Cate_Text_Selector(BaseEstimator, TransformerMixin):
-    """The Cate_Text_Selector to identify text variables and normal categorical
-       variable. This process in order to be embeded as custom transformer to
-       process text variables and categorical variables separatly
-    """
-    def __init__(self, dtype):
-        """ Input the data type to be kept after selector's filtering
-            "text" or "category"
-        """
-        self.dtype = dtype
-
-    def fit(self, X, y = None):
-        return self
-
-    def text_selector(self, X):
-        """ Identify text variables and normal categorical variables, then
-            assign them to different listsself.
-            Criteria for identify text variable: Originally was object type and
-            # of unique values greater than # of total non-null values in the
-            dataframe
-
-        Args:
-            X: dataframe which contains need to be split variables.
-
-        Return:
-            text_col: list of text variable names.
-            cate_col: list of normal categorical variable names.
-
-        """
-
-        text_col = []
-        cate_col = []
-
-        for col in X.select_dtypes(include='object').columns.tolist():
-            if len(X[col].unique()) > 0.5 * len(X[X[col].notnull()]):
-                text_col.append(col)
-            else:
-                cate_col.append(col)
-
-        return text_col, cate_col
-
-    def transform(self, X):
-        """Transform selected text columns and normal categorical columns into
-           arrays suitable for the following feature transformation and model
-           traning process
-
-        Args:
-            X: dataframe which contains need to be split and transformed
-               variables.
-
-        Return:
-            Arrays of selected type variables.
-        """
-
-        text_col, cate_col = self.text_selector(X)
-
-        if self.dtype == 'text':
-            return X[text_col].values[:,0]
-        if self.dtype == 'category':
-            return X[cate_col].values
-
+# Comment this part for suitable for app input information
+#
+# class Cate_Text_Selector(BaseEstimator, TransformerMixin):
+#     """The Cate_Text_Selector to identify text variables and normal categorical
+#        variable. This process in order to be embeded as custom transformer to
+#        process text variables and categorical variables separatly
+#     """
+#     def __init__(self, dtype):
+#         """ Input the data type to be kept after selector's filtering
+#             "text" or "category"
+#         """
+#         self.dtype = dtype
+#
+#     def fit(self, X, y = None):
+#         return self
+#
+#     def text_selector(self, X):
+#         """ Identify text variables and normal categorical variables, then
+#             assign them to different listsself.
+#             Criteria for identify text variable: Originally was object type and
+#             # of unique values greater than # of total non-null values in the
+#             dataframe
+#
+#         Args:
+#             X: dataframe which contains need to be split variables.
+#
+#         Return:
+#             text_col: list of text variable names.
+#             cate_col: list of normal categorical variable names.
+#
+#         """
+#
+#         text_col = []
+#         cate_col = []
+#
+#         for col in X.select_dtypes(include='object').columns.tolist():
+#             if len(X[col].unique()) > 0.5 * len(X[X[col].notnull()]):
+#                 text_col.append(col)
+#             else:
+#                 cate_col.append(col)
+#
+#         return text_col, cate_col
+#
+#     def transform(self, X):
+#         """Transform selected text columns and normal categorical columns into
+#            arrays suitable for the following feature transformation and model
+#            traning process
+#
+#         Args:
+#             X: dataframe which contains need to be split and transformed
+#                variables.
+#
+#         Return:
+#             Arrays of selected type variables.
+#         """
+#
+#         text_col, cate_col = self.text_selector(X)
+#
+#         if self.dtype == 'text':
+#             return X[text_col].values[:,0]
+#         if self.dtype == 'category':
+#             return X[cate_col].values
 
 
 
@@ -183,6 +183,38 @@ def build_model():
     return cv
 
 
+
+def build_model():
+    """ The model builing process to integrate all the necessary steps of model
+        training, which include data loading, transformation, model training,
+        parameter grid search, model evaluation and save the trained model.
+    """
+
+    # feature preprocessing pipeline
+    pipeline = Pipeline([
+        ('vect', CountVectorizer(tokenizer = tokenize)),
+        ('tfidf', TfidfTransformer()),
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))
+    ])
+
+    # grid search
+    parameters = {
+        #'clf__estimator__n_estimators': [20, 50],
+        #'clf__estimator__max_depth': [3, 6]
+        'clf__estimator__min_samples_split': [2,4]
+        #'clf__estimator__loss': ['log', 'hinge']
+        #'clf__estimator__penalty': ['l2']
+        #'clf__estimator__alpha': [0.001, 0.0001]
+    }
+
+    cv = GridSearchCV(pipeline, param_grid= parameters)
+
+    return cv
+
+
+
+
+
 def evaluate_model(model, X_test, Y_test, category_names):
     """ Evaluation trained model via comparing true Y_test values and predicted
         test values
@@ -207,10 +239,10 @@ def evaluate_model(model, X_test, Y_test, category_names):
     for i in np.arange(0,36,1):
         print("Target:{}".format(category_names[i]))
         print("\n")
-        print(classification_report(Y_test.values[i],Y_pred[i]))
+        print(classification_report(Y_test[i],Y_pred[i]))
         print('\n')
         print('\n')
-        weighted_fscore += f1_score(Y_test.values[i],Y_pred[i], \
+        weighted_fscore += f1_score(Y_test[i],Y_pred[i], \
         average='weighted')
 
     print("Overall average f1 score of all categories are: {}".\
@@ -219,10 +251,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 
+
+
 def save_model(model, model_filepath):
     """Save trained model to sepcified file path
     """
     pickle.dump(model, open(model_filepath,'wb'))
+
+
 
 
 def main():
