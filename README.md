@@ -16,7 +16,7 @@ This project mainly includes 3 parts:
 * Machine Pipeline
 * Web App
 
-**1**. ETL Pipeline
+**1**. **ETL Pipeline** <br />
 This part will process disaster message and the correlated categories data,
 then merge them together and store clean data into a SQLite database.
 
@@ -28,7 +28,7 @@ python data/process_data.py data/disaster_messages.csv data/disaster_categories.
 
 You will get cleaned dataset stored at data/DisasterResponse.db <br />
 
-**2**. Machine Learning Pipeline
+**2**. **Machine Learning Pipeline**  <br />
 This part will utilize cleaned disaster messages as the predictor and 36 kinds <br />
 of categories as the targets to train and test a multiple outputs classifier.
 
@@ -50,7 +50,7 @@ python model/train_classifier.py data/DisasterResponse.db model/classifier.pkl <
 You will get trained classifier stored at model/classifier.pkl <br />
 
 
-**3**. Web App
+**3**. **Web App** <br />
 This part will create a flask web app to visualize some data distributions of disaster <br />
 messages and categories. Also, it allows input messages and get the predicted <br />
 classification category results.  <br />
