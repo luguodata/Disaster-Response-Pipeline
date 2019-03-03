@@ -171,7 +171,7 @@ def build_model():
     # grid search
     parameters = {
         #'clf__estimator__n_estimators': [20, 50],
-        #'clf__estimator__max_depth': [3, 6]
+        'clf__estimator__max_depth': [3, 6],
         'clf__estimator__min_samples_split': [2,4]
         #'clf__estimator__loss': ['log', 'hinge']
         #'clf__estimator__penalty': ['l2']

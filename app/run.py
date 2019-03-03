@@ -107,7 +107,7 @@ engine = create_engine('sqlite:///data/DisasterResponse.db')
 df = pd.read_sql_table('etl_processed_data', engine)
 
 # load model
-model = joblib.load("model/RF_CV.pkl")
+model = joblib.load("model/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -143,11 +143,20 @@ def index():
 
             'layout': {
                 'title': 'Distribution of Disaster Related Messages',
+                'titlefont': {
+                'size': 20
+                     },
                 'yaxis': {
-                    'title': "Count"
+                    'title': "Count",
+                    'titlefont':{
+                    'size': 16
+                    }
                 },
                 'xaxis': {
-                    'title': "Disaster Related ?"
+                    'title': "Disaster Related",
+                    'titlefont':{
+                    'size': 16
+                    }
                 }
             }
         },
@@ -155,19 +164,37 @@ def index():
         {
             'data': [
                 Bar(
-                    y=categry_cnts,
-                    x=categry_names
+                    x=categry_names,
+                    y=categry_cnts
+
                 )
             ],
 
             'layout': {
-                'title': 'Distribution of Disaster Related Messages',
-                'yaxis': {
-                    'title': "Count"
+                'title': 'Category Distribution of Disaster Messages',
+                'titlefont': {
+                'size': 20
                 },
                 'xaxis': {
-                    'title': "Disaster Categories"
-                }
+                    'title': "Disaster Categories",
+                    'titlefont':{
+                    'size': 16
+                    },
+                    'tickangle': -20,
+                    'tickfont': {
+                    'size': 10
+                    }
+                },
+
+                 'yaxis': {
+                    'title': "Count",
+                    'titlefont':{
+                    'size': 16
+                    }
+                },
+                'autosize' : False,
+                'width': 1200,
+                'height': 600
             }
         }
 
