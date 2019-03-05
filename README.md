@@ -86,7 +86,14 @@ In udacity workspace python:
 
 
 ## Screenshots of Web App
-![](/screenshots/WebApp1.png, 'Main Page')
-![](screenshots/WebApp2.png, 'Data Charts 1')
-![](screenshots/WebApp3.png, 'Data Charts 2')
-![](screenshots/WebApp4.png, 'Predicted Categories with Input Message')
+
+####           Main Page
+<img src="screenshots/MainPage.png" width="600">
+
+####           Charts
+<img src="screenshots/Chart1.png" width="600">
+
+<img src="screenshots/Chart2.png" width="600">
+
+####         Predicted Ctegories
+<img src="screenshots/PredictedCategories.png" width="600">

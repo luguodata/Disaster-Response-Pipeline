@@ -199,8 +199,8 @@ def build_model():
 
     # grid search
     parameters = {
-        #'clf__estimator__n_estimators': [20, 50],
-        'clf__estimator__max_depth': [4, 8],
+        'clf__estimator__n_estimators': [20, 50],
+        #'clf__estimator__max_depth': [4, 8],
         'clf__estimator__min_samples_split': [2,4]
     }
 
