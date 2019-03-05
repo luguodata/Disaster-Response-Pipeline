@@ -15,23 +15,22 @@ from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
 from sklearn.base import BaseEstimator, TransformerMixin
-
 from sklearn.preprocessing import OneHotEncoder
 
 
 app = Flask(__name__)
 
 
-def tokenize(text):
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
-
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
-    return clean_tokens
+# def tokenize(text):
+#     tokens = word_tokenize(text)
+#     lemmatizer = WordNetLemmatizer()
+#
+#     clean_tokens = []
+#     for tok in tokens:
+#         clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+#         clean_tokens.append(clean_tok)
+#
+#     return clean_tokens
 
 
 
@@ -116,23 +115,19 @@ model = joblib.load("model/classifier.pkl")
 def index():
 
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
 
     # add1: related unrelated message proportion compare
     related_cnt = df.groupby('related').count()['message']
     related_label = related_cnt.index.tolist()
     related_label = ['N','Y']
 
-
     # add2: message categories sorted counts within related messages
     categry_cnts = df.ix[:,5:].sum().sort_values(ascending = False)
     categry_names = categry_cnts.index.tolist()
 
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
+        # 1st add visual -- related/unrelated message distiution
         {
             'data': [
                 Bar(
@@ -161,6 +156,7 @@ def index():
             }
         },
 
+        # 2nd add visual -- message categories counts within related messages
         {
             'data': [
                 Bar(
@@ -197,10 +193,6 @@ def index():
                 'height': 600
             }
         }
-
-
-
-
 
     ]
 

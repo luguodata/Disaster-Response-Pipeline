@@ -16,19 +16,19 @@ This project mainly includes 3 parts:
 * Machine Pipeline
 * Web App
 
-**1**. **ETL Pipeline** <br />
+### **1**. **ETL Pipeline**
 This part will process disaster message and the correlated categories data,
 then merge them together and store clean data into a SQLite database.
 
-code: data/process_data.py
-data: data/disater_messages.csv, data/disaster_categories.csv
+**code: data/process_data.py** <br />
+**data: data/disater_messages.csv, data/disaster_categories.csv**
 
-At master folder terminal run: <br />
+**At master folder terminal run:** <br />
 python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db <br />
 
 You will get cleaned dataset stored at data/DisasterResponse.db <br />
 
-**2**. **Machine Learning Pipeline**  <br />
+### **2**. **Machine Learning Pipeline**
 This part will utilize cleaned disaster messages as the predictor and 36 kinds <br />
 of categories as the targets to train and test a multiple outputs classifier.
 
@@ -41,23 +41,23 @@ Detailed functions include: <br />
 * Test prediction results on test dataset and output performance report.
 * Save model into pickle file which will be used in the web app.
 
-code: model/train_classifier.py <br />
-data: data/DisasterResponse.db <br />
+**code: model/train_classifier.py** <br />
+**data: data/DisasterResponse.db** <br />
 
-At master folder terminal run: <br />
+**At master folder terminal run:** <br />
 python model/train_classifier.py data/DisasterResponse.db model/classifier.pkl <br />
 
 You will get trained classifier stored at model/classifier.pkl <br />
 
 
-**3**. **Web App** <br />
+### **3**. **Web App**
 This part will create a flask web app to visualize some data distributions of disaster <br />
 messages and categories. Also, it allows input messages and get the predicted <br />
 classification category results.  <br />
 
-code: app/run.py <br />
-data: data/DisasterResponse.db <br />
-HTML Templates: templates/master.html, templates/go.html <br />
+**code: app/run.py** <br />
+**data: data/DisasterResponse.db** <br />
+**HTML Templates: templates/master.html, templates/go.html** <br />
 
 Modify files names and paths of database which was get from ETL pipeline step and the <br />
 classifier pickle file which was get from 2nd step. <br />
@@ -80,6 +80,8 @@ nltk==3.4 <br />
 scikit-learn==0.20.1 <br />
 sqlalchemy==1.2.15 <br />
 
+In udacity workspace python:
+`import nltk`
 `nltk.download('stopwords')`
 
 

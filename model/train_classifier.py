@@ -144,43 +144,43 @@ def tokenize(text):
 
 
 
-def build_model():
-    """ The model builing process to integrate all the necessary steps of model
-        training, which include data loading, transformation, model training,
-        parameter grid search, model evaluation and save the trained model.
-    """
-
-    # feature preprocessing pipeline
-    pipeline = Pipeline([
-        ('features', FeatureUnion([
-            ('text_features', Pipeline([
-                ('selector',Cate_Text_Selector('text')),
-                ('vect', CountVectorizer(tokenizer = tokenize)),
-                ('tfidf', TfidfTransformer())
-            ])),# Text preprocessing ends
-
-            ('cate_features', Pipeline([
-                ('selector',Cate_Text_Selector('category')),
-                ('dummy', OneHotEncoder())
-            ])) # Normal categorical variable preprocessing ends
-        ])), # Feature part ends
-
-        ('clf', MultiOutputClassifier(RandomForestClassifier()))
-    ])
-
-    # grid search
-    parameters = {
-        #'clf__estimator__n_estimators': [20, 50],
-        'clf__estimator__max_depth': [3, 6],
-        'clf__estimator__min_samples_split': [2,4]
-        #'clf__estimator__loss': ['log', 'hinge']
-        #'clf__estimator__penalty': ['l2']
-        #'clf__estimator__alpha': [0.001, 0.0001]
-    }
-
-    cv = GridSearchCV(pipeline, param_grid= parameters)
-
-    return cv
+# def build_model():
+#     """ The model builing process to integrate all the necessary steps of model
+#         training, which include data loading, transformation, model training,
+#         parameter grid search, model evaluation and save the trained model.
+#     """
+#
+#     # feature preprocessing pipeline
+#     pipeline = Pipeline([
+#         ('features', FeatureUnion([
+#             ('text_features', Pipeline([
+#                 ('selector',Cate_Text_Selector('text')),
+#                 ('vect', CountVectorizer(tokenizer = tokenize)),
+#                 ('tfidf', TfidfTransformer())
+#             ])),# Text preprocessing ends
+#
+#             ('cate_features', Pipeline([
+#                 ('selector',Cate_Text_Selector('category')),
+#                 ('dummy', OneHotEncoder())
+#             ])) # Normal categorical variable preprocessing ends
+#         ])), # Feature part ends
+#
+#         ('clf', MultiOutputClassifier(RandomForestClassifier()))
+#     ])
+#
+#     # grid search
+#     parameters = {
+#         #'clf__estimator__n_estimators': [20, 50],
+#         'clf__estimator__max_depth': [3, 6],
+#         'clf__estimator__min_samples_split': [2,4]
+#         #'clf__estimator__loss': ['log', 'hinge']
+#         #'clf__estimator__penalty': ['l2']
+#         #'clf__estimator__alpha': [0.001, 0.0001]
+#     }
+#
+#     cv = GridSearchCV(pipeline, param_grid= parameters)
+#
+#     return cv
 
 
 
@@ -200,11 +200,8 @@ def build_model():
     # grid search
     parameters = {
         #'clf__estimator__n_estimators': [20, 50],
-        #'clf__estimator__max_depth': [3, 6]
+        'clf__estimator__max_depth': [4, 8],
         'clf__estimator__min_samples_split': [2,4]
-        #'clf__estimator__loss': ['log', 'hinge']
-        #'clf__estimator__penalty': ['l2']
-        #'clf__estimator__alpha': [0.001, 0.0001]
     }
 
     cv = GridSearchCV(pipeline, param_grid= parameters)
@@ -250,14 +247,10 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 
-
-
-
 def save_model(model, model_filepath):
     """Save trained model to sepcified file path
     """
     pickle.dump(model, open(model_filepath,'wb'))
-
 
 
 

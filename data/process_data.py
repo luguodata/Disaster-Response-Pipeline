@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 from sqlalchemy import create_engine
 
+
 def load_data(messages_filepath, categories_filepath):
     """ Load message data and categories datasets for DisasterResponse project
 
@@ -17,6 +18,7 @@ def load_data(messages_filepath, categories_filepath):
     df = messages.merge(categories, on = ['id'], how = 'left')
 
     return df
+
 
 def clean_data(df):
     """ Clean merge data of message and categories. This step includes
@@ -52,6 +54,7 @@ def clean_data(df):
     df = df.drop_duplicates()
 
     return df
+
 
 def save_data(df, database_filename):
     """Create sqlite database and save the processed data into it.
