@@ -23,7 +23,7 @@ then merge them together and store clean data into a SQLite database.
 **code: data/process_data.py** <br />
 **data: data/disater_messages.csv, data/disaster_categories.csv**
 
-**At master folder terminal run:** <br />
+**At master folder terminal run:** (Modify the database name as you want, but keep the files' sequence)<br />
 python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db <br />
 
 You will get cleaned dataset stored at data/DisasterResponse.db <br />
@@ -44,7 +44,7 @@ Detailed functions include: <br />
 **code: model/train_classifier.py** <br />
 **data: data/DisasterResponse.db** <br />
 
-**At master folder terminal run:** <br />
+**At master folder terminal run:**(Modify the classifier's name as you want, but keep the files' sequence) <br />
 python model/train_classifier.py data/DisasterResponse.db model/classifier.pkl <br />
 
 You will get trained classifier stored at model/classifier.pkl <br />
