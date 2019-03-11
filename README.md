@@ -13,7 +13,7 @@ This project is from Udacity Data Science Nano-Degree and data comes from
 
 This project mainly includes 3 parts:
 * ETL Pipeline
-* Machine Pipeline
+* Machine Learning Pipeline
 * Web App
 
 ### **1**. **ETL Pipeline**
@@ -36,7 +36,7 @@ Detailed functions include: <br />
 * Load data from SQLite database which stored in the ETL Pipeline step.
 * Text processing and machine leaning piplines.
   Text processing on disaster messages, which include normalization, tokenization,
-  lemmetization and tf-idf transormation.
+  lemmatization and tf-idf transformation.
   GridSearchCV training included.
 * Test prediction results on test dataset and output performance report.
 * Save model into pickle file which will be used in the web app.
@@ -51,8 +51,8 @@ You will get trained classifier stored at model/classifier.pkl <br />
 
 
 ### **3**. **Web App**
-This part will create a flask web app to visualize some data distributions of disaster <br />
-messages and categories. Also, it allows input messages and get the predicted <br />
+This part will create a flask web app to visualize some data distributions of disaster
+messages and categories. Also, it allows input messages and get the predicted
 classification category results.  <br />
 
 **code: app/run.py** <br />
@@ -72,7 +72,7 @@ https://SPACEID-3001.SPACEDOMAIN
 Then you will get the web app link and open it with browser.
 
 ## Required packages
-Besides regular pre-install packages, you need below package to run this project: <br />
+Besides regular pre-install packages, you need below packages to run this project: <br />
 
 Flask==1.0.2 <br />
 plotly==3.6.1 <br />
