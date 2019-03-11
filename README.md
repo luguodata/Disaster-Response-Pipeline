@@ -1,4 +1,4 @@
-# Disaster-Response-Pipline
+# Disaster-Response-Pipeline
 This project is about building a disaster response ETL and Machine Learning
 pipelines to process disaster messages and categorize their events type.
 In this way, each message could be sent to an appropriate disaster relief agency.
